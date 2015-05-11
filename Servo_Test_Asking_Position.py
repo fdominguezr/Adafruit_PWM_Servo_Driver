@@ -16,11 +16,11 @@ pwm.setPWMFreq(50)
 # You should test/calibrate each servo to maximize its movement span while not stretching it too much.
 # For more info check this article: http://letsmakerobots.com/node/39297
 while (True):
-#Now the program will ask for a number so we can move servo from 0 degrees to 180 degrees
-	puWidth = input('Enter a pulse width value between 0 and 180 degrees: ')
-	if puWidth > 0 and puWidth < 181:
+#Now the program will ask for an angle so Raspi can move servo from 0 degrees to 180 degrees
+	puWidth = input('Enter an angle value between 0 and 180 degrees: ')
+	if puWidth > -1 and puWidth < 181:
 		print'OK'
 		puWidth = 2*puWidth + 120
 		pwm.setPWM(0,0,puWidth)
 	else:
-		print'Invalid pulse width!'
+		print'Invalid angle!'
