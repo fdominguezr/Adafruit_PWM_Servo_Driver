@@ -1,0 +1,79 @@
+How I adapted my Raspberry Pi with Raspbian:
+
+1. set keyboard with 
+
+2. set display right in composite video
+
+Take a backup of /boot/config.txt
+sudo cp /boot/config.txt /boot/config.txt.backup
+Open config.txt for editing
+sudo nano /boot/config.txt
+Uncomment the #disable_overscan=1 (Remove the #)
+Comment all other overscan parameters
+#overscan_left=10
+#overscan_right=10
+#overscan_top=15
+#overscan_bottom=15
+Save and exit. ( CTRL+X followed by Y to save)
+Reboot
+sudo reboot
+On most monitors/TVs this would remove the black borders and make the desktop fill the whole screen. However if your display stil has some overscan you may need to keep the overscan parameters in config.txt file, but adjust the values:
+
+overscan_left=-10
+overscan_right=-10
+overscan_top=-30
+overscan_bottom=-30
+More negative values means less black borders. Centre the display by trying different values for feft, right, top, bottom.
+
+Picture spills off the size of the screen and some parts of the picture are outside the screen
+
+This means you need positive overscan values.
+
+overscan_left=10
+overscan_right=10
+overscan_top=30
+overscan_bottom=30
+
+source: http://www.opentechguides.com/how-to/article/raspberry-pi/28/raspi-display-setting.html
+
+3. get installed wifi
+
+sudo apt-get update
+sudo apt-get install wicd-curses
+Ok, now we are ready to start, type:
+sudo wicd-curses
+
+source:
+http://www.raspyfi.com/wi-fi-on-raspberry-pi-a-simple-guide/
+
+4. set DNS server
+You can't just use nano (or vi) on /etc/resolv.conf. That will be overwritten every time you disconnect, reconnect, shutdown or reboot. Resolv.conf is updated by the ifup/ifdown process based on what's in your /etc/network/interfaces definitions.
+
+Edit /etc/network/interfaces and add your preferred nameserver (my examples use Google's public servers)
+CODE: SELECT ALL
+iface eth0 inet dhcp
+  dns-nameservers 8.8.8.8 8.8.4.4
+
+and the same for WLAN0
+CODE: SELECT ALL
+iface wlan0 inet dhcp
+  dns-nameservers 8.8.8.8 8.8.4.4
+
+source: https://www.raspberrypi.org/forums/viewtopic.php?f=63&t=57388
+
+reboot and test with
+ping google.com
+
+5. install git
+
+6. clone Hatalogico folder
+7. run in Hatalogico folder this:
+git submodule update --init --recursive
+
+8. test installation with:
+python ledCycle.py
+
+LED attached to PWM0 should lit up and down
+CTRL + Z to end
+
+9.
